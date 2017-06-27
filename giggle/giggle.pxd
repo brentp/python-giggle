@@ -9,7 +9,10 @@ cdef extern from "giggle_index.h":
         pass
 
     cdef struct giggle_query_result:
-        pass
+        giggle_index *gi;
+        uint32_t num_files;
+        uint32_t num_hits;
+        
 
     void giggle_index_destroy(giggle_index *gi)
 
@@ -27,6 +30,7 @@ cdef extern from "giggle_index.h":
                                         uint32_t start,
                                         uint32_t end,
                                         giggle_query_result *gqr);
+    void giggle_query_result_destroy(giggle_query_result **gqr)
 
 
     giggle_index *giggle_init(uint32_t num_chrms,

@@ -13,8 +13,19 @@ cdef class Giggle:
 
 cdef class Result:
     cdef giggle_query_result *gqr
+    def __dealloc__(self):
+        giggle_query_result_destroy(&self.gqr)
+
+    @property
+    def n_files(self):
+        return self.gqr.num_files
+
+    @property
+    def n_hits(self):
+        return self.gqr.num_hits
 
 cdef Result make_query_result(giggle_query_result *gqr):
     cdef Result r = Result.__new__(Result)
     r.gqr = gqr
     return r
+
