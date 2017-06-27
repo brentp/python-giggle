@@ -1,4 +1,4 @@
-from libc.stdint cimport int32_t, uint32_t, int8_t, int16_t, uint8_t
+from libc.stdint cimport uint32_t, uint32_t, int8_t, int16_t, uint8_t, uint64_t
 
 cdef extern from "ll.h":
     void uint64_t_ll_giggle_set_data_handler()
@@ -16,6 +16,9 @@ cdef extern from "giggle_index.h":
 
     void giggle_index_destroy(giggle_index *gi)
 
+    uint64_t giggle_bulk_insert(char *input_path_name,
+                            char *output_path_name,
+                            uint32_t force)
 
     giggle_index *giggle_load(char *data_dir,
                               void (*giggle_set_data_handler)());
