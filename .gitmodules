@@ -1,0 +1,6 @@
+[submodule "lib/giggle"]
+	path = lib/giggle
+	url = https://github.com/ryanlayer/giggle
+[submodule "lib/htslib"]
+	path = lib/htslib
+	url = https://github.com/samtools/htslib
