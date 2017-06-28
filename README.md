@@ -15,3 +15,13 @@ print(result.n_hits(0)) # integer number of hits for the 0th file...
 for hit in result[0]:
     print(hit) # hit is a string
 ```
+
+### Installation
+
+make sure you have `liz`, `libcurl`, `libcrypto`, `libbz2` and `liblzma` installed in the appropriate
+place on your system.
+```
+git clone --recursive https://github.com/brentp/python-giggle
+python setup.py install
+```
+
