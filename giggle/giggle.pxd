@@ -5,8 +5,16 @@ cdef extern from "ll.h":
 
 cdef extern from "giggle_index.h":
 
+    void block_store_giggle_set_data_handler()
+
     cdef struct giggle_index:
         pass
+
+
+    uint32_t giggle_get_indexed_files(char *index_dir_name,
+                                  char ***names,
+                                  uint32_t **num_intervals,
+                                  double **mean_interval_sizes);
 
     cdef struct giggle_query_result:
         giggle_index *gi;
@@ -67,37 +75,8 @@ cdef extern from "giggle_index.h":
                                                 void **r);
 
 
-    ctypedef struct giggle_def:
-        #struct cache_handler non_leading_cache_handler;
-        #struct cache_handler leading_cache_handler;
-        void *(*new_non_leading)(uint32_t domain);
-        void *(*new_leading)(uint32_t domain);
-        void (*non_leading_SA_add_scalar)(uint32_t domain,
-                                      void *non_leading,
-                                      void *scalar);
-        void (*non_leading_SE_add_scalar)(uint32_t domain, 
-                                      void *non_leading,
-                                      void *scalar);
-        void (*leading_B_add_scalar)(uint32_t domain,
-                                 void *leading,
-                                 void *scalar);
-        void (*leading_union_with_B)(uint32_t domain,
-                                 void **result,
-                                 void *leading);
-        void (*non_leading_union_with_SA)(uint32_t domain,
-                                      void **result,
-                                      void *non_leading);
-        void (*non_leading_union_with_SA_subtract_SE)(uint32_t domain,
-                                                  void **result,
-                                                  void *non_leading);
-        void (*write_tree)(void *arg);
-        void *(*giggle_collect_intersection)(uint32_t leaf_start_id,
-                                         int pos_start_id,
-                                         uint32_t leaf_end_id,
-                                         int pos_end_id,
-                                         uint32_t domain,
-                                         void **r);
-        void (*map_intersection_to_offset_list)(giggle_index *gi,
-                                            giggle_query_result *gqr,
-                                            void *_R);
+    cdef struct giggle_def:
+        pass
+
+    cdef giggle_def giggle_data_handler;
 

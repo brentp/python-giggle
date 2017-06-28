@@ -68,6 +68,10 @@ sources = [x for x in sources if not x.endswith(('htsfile.c', 'tabix.c', 'bgzip.
 
 sources.extend([x for x in glob.glob('lib/giggle/src/*.c') if not any(e in x for e in excludes)])
 
+if not os.path.exists("lib/htslib/config.h"):
+    import subprocess as sp
+    sp.check_call("cd lib/htslib && autoreconf && ./configure && make -j4", shell=True)
+
 import numpy as np
 from Cython.Distutils import build_ext
 
@@ -75,9 +79,9 @@ here = os.path.abspath(".")
 
 cmdclass = {'build_ext': build_ext}
 extension = [Extension("giggle.giggle",
-                        ["giggle/giggle.pyx"]+ ["lib/giggle/src/giggle_index.c"],
-                        libraries=['z', 'dl', 'm', 'curl', 'crypto'],
-                        include_dirs=[here, "lib/giggle/src/"])]
+                        ["giggle/giggle.pyx"] + sources,
+                        libraries=['z', 'dl', 'm', 'curl', 'crypto', 'bz2', 'lzma'],
+                        include_dirs=[here, "lib/giggle/src/", "lib/htslib"])]
 
 setup(
     name="giggle",
