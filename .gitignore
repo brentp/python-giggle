@@ -4,3 +4,4 @@
 setup-requires
 build/
 *.so
+giggle.c
