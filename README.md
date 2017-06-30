@@ -22,6 +22,7 @@ make sure you have `liz`, `libcurl`, `libcrypto`, `libbz2` and `liblzma` install
 place on your system.
 ```
 git clone --recursive https://github.com/brentp/python-giggle
+cd python-giggle
 python setup.py install
 ```
 
