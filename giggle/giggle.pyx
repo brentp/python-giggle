@@ -10,9 +10,10 @@ cdef class Giggle:
     cdef list _files
     cdef char *path
 
-    def __init__(self, char *path):
-        self.path = path
-        self.gi = giggle_load(to_bytes(path), block_store_giggle_set_data_handler)
+    def __init__(self, path):
+        p = to_bytes(path)
+        self.path = p
+        self.gi = giggle_load(p, block_store_giggle_set_data_handler)
         self._files = []
 
     def query(self, chrom, int start, int end):
@@ -22,7 +23,7 @@ cdef class Giggle:
         return res
 
     @classmethod
-    def create(self, char *path, char *glob):
+    def create(self, path, glob):
         giggle_bulk_insert(to_bytes(glob), to_bytes(path), 1)
         return Giggle(path)
 
@@ -33,7 +34,7 @@ cdef class Giggle:
         cdef uint32_t *n_intervals
         cdef double *mean_size
         cdef int n_files = giggle_get_indexed_files(self.path, &names, &n_intervals, &mean_size)
-        self._files = [names[i] for i in range(n_files)]
+        self._files = [from_bytes(names[i]) for i in range(n_files)]
         free(names)
         return self._files
 
@@ -92,3 +93,12 @@ cdef to_bytes(s, enc=ENC):
     if not isinstance(s, bytes):
         return s.encode(enc)
     return s
+
+cdef from_bytes(s):
+  if isinstance(s, bytes):
+      try:
+          return s.decode(ENC)
+      except UnicodeDecodeError:
+          return s.decode('utf8', errors='replace')
+  return s
+
